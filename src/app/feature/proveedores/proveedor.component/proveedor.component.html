@@ -85,8 +85,8 @@
             </ng-container>
 
             <ng-container *ngIf="proveedores.length > 0">
-<tr *ngFor="let p of proveedores; let i = index" class="hover:bg-gray-50 transition-colors duration-150">
-     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">{{ i+1 }}</td>
+              <tr *ngFor="let p of proveedores; let i = index" class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">{{ i + 1 }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ p.nombre }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ p.correo }}</td>
                 <td class="px-6 py-4 whitespace-nowrap">

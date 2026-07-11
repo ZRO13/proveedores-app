@@ -1,9 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Proveedor } from '../../../models/proveedor.interface';
 import { ProveedorService } from '../../../services/proveedor.service';
-
 
 @Component({
   selector: 'app-proveedor',
@@ -15,13 +14,13 @@ import { ProveedorService } from '../../../services/proveedor.service';
 export class ProveedorComponent implements OnInit {
   private proveedorService = inject(ProveedorService);
   private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
 
   proveedores: Proveedor[] = [];
   proveedorForm!: FormGroup;
   modoEdicion = false;
   proveedorIdActual: string | null = null;
   mensajeError: string | null = null;
-  id:number=0;
 
   ngOnInit(): void {
     this.iniciarFormulario();
@@ -41,11 +40,12 @@ export class ProveedorComponent implements OnInit {
     this.proveedorService.getProveedores().subscribe({
       next: (data) => {
         this.proveedores = data;
-        console.log(data)
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.mensajeError = 'Error al cargar los proveedores. Verifica la conexión con el servidor.';
         console.error(err);
+        this.cdr.detectChanges();
       }
     });
   }
@@ -57,23 +57,27 @@ export class ProveedorComponent implements OnInit {
     this.mensajeError = null;
 
     if (this.modoEdicion && this.proveedorIdActual) {
-      // Actualizar [cite: 27]
       proveedorData.id = this.proveedorIdActual;
       this.proveedorService.updateProveedor(this.proveedorIdActual, proveedorData).subscribe({
         next: () => {
           this.cargarProveedores();
           this.resetearFormulario();
         },
-        error: (err) => this.mensajeError = 'Error al actualizar el proveedor.'
+        error: (err) => {
+          this.mensajeError = 'Error al actualizar el proveedor.';
+          this.cdr.detectChanges();
+        }
       });
     } else {
-      // Crear [cite: 27]
       this.proveedorService.createProveedor(proveedorData).subscribe({
         next: () => {
           this.cargarProveedores();
           this.resetearFormulario();
         },
-        error: (err) => this.mensajeError = 'Error al crear el proveedor.'
+        error: (err) => {
+          this.mensajeError = 'Error al crear el proveedor.';
+          this.cdr.detectChanges();
+        }
       });
     }
   }
@@ -95,7 +99,10 @@ export class ProveedorComponent implements OnInit {
       this.mensajeError = null;
       this.proveedorService.deleteProveedor(id).subscribe({
         next: () => this.cargarProveedores(),
-        error: (err) => this.mensajeError = 'Error al eliminar el proveedor.'
+        error: (err) => {
+          this.mensajeError = 'Error al eliminar el proveedor.';
+          this.cdr.detectChanges();
+        }
       });
     }
   }
