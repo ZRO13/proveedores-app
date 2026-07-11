@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { Proveedor } from './proveedor.interface';
+import { Proveedor } from '../models/proveedor.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProveedorService {
   // Asegúrate de que el puerto coincida con el que te da tu backend de .NET al ejecutarlo
-  private apiUrl = 'https://localhost:7123/api/proveedores';
+  private apiUrl = 'https://localhost:7112/api/Proveedores';
   private http = inject(HttpClient);
 
   getProveedores(): Observable<Proveedor[]> {

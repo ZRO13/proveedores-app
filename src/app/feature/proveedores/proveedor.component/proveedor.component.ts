@@ -1,8 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProveedorService } from './proveedor.service';
-import { Proveedor } from './proveedor.interface';
+import { Proveedor } from '../../../models/proveedor.interface';
+import { ProveedorService } from '../../../services/proveedor.service';
+
 
 @Component({
   selector: 'app-proveedor',
@@ -20,6 +21,7 @@ export class ProveedorComponent implements OnInit {
   modoEdicion = false;
   proveedorIdActual: string | null = null;
   mensajeError: string | null = null;
+  id:number=0;
 
   ngOnInit(): void {
     this.iniciarFormulario();
@@ -39,6 +41,7 @@ export class ProveedorComponent implements OnInit {
     this.proveedorService.getProveedores().subscribe({
       next: (data) => {
         this.proveedores = data;
+        console.log(data)
       },
       error: (err) => {
         this.mensajeError = 'Error al cargar los proveedores. Verifica la conexión con el servidor.';
