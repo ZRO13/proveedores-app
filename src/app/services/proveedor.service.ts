@@ -7,8 +7,7 @@ import { Proveedor } from '../models/proveedor.interface';
   providedIn: 'root'
 })
 export class ProveedorService {
-  // Asegúrate de que el puerto coincida con el que te da tu backend de .NET al ejecutarlo
-  private apiUrl = 'https://localhost:7112/api/Proveedores';
+  private apiUrl = 'https://supplier-flow-api.onrender.com/api/Proveedores';
   private http = inject(HttpClient);
 
   getProveedores(): Observable<Proveedor[]> {
